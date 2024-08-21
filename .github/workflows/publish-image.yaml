@@ -29,8 +29,9 @@ jobs:
         deploymentMode: Incremental
 
     - name: Parse Bicep Output
+      id: parse_output
       run: |
-        acrLoginServer=$(echo $outputJson | jq -r '.acrLoginServer.value')
+        acrLoginServer=$(az deployment group show --resource-group WeatherProjectRG --name acr-deployment --query properties.outputs.acrLoginServer.value -o tsv)
         echo "ACR Login Server: $acrLoginServer"
         echo "acrLoginServer=$acrLoginServer" >> $GITHUB_ENV
 
