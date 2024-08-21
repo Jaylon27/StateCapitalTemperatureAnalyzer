@@ -1,7 +1,9 @@
 name: Deploy Infrastructure - Build and Push Docker Image to ACR
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main 
 
 jobs:
   deploy_and_build:
