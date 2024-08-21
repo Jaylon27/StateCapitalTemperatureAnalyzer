@@ -1,21 +1,46 @@
-name: Deploy Infastructure - Build and Push Docker Image to ACR
+name: Deploy Infrastructure - Build and Push Docker Image to ACR
 
 on:
   workflow_dispatch:
 
 jobs:
-  build:
+  deploy_and_build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
+
     steps:
-    - uses: actions/checkout@v2
-    - uses: azure/docker-login@v1
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Azure Login
+      uses: azure/login@v1
       with:
-        login-server: crd4h36xqh4cp46.azurecr.io
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy ACR using Bicep
+      uses: azure/arm-deploy@v2
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        resourceGroupName: WeatherProjectRG
+        template: ./infastructure/acr-deployment.bicep
+        parameters: |
+          location=eastus
+        deploymentMode: Incremental
+        deploymentOutputs: outputJson
+
+    - name: Parse Bicep Output
+      run: |
+        acrLoginServer=$(echo $outputJson | jq -r '.acrLoginServer.value')
+        echo "ACR Login Server: $acrLoginServer"
+        echo "acrLoginServer=$acrLoginServer" >> $GITHUB_ENV
+
+    - name: Login to ACR
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.acrLoginServer }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
-    - run: |
-        docker build . -t crd4h36xqh4cp46.azurecr.io/weatherapp:${{ github.sha }}
-        docker push crd4h36xqh4cp46.azurecr.io/weatherapp:${{ github.sha }}
+
+    - name: Build and Push Docker Image
+      run: |
+        docker build . -t ${{ env.acrLoginServer }}/weatherapp:latest
+        docker push ${{ env.acrLoginServer }}/weatherapp:latest
