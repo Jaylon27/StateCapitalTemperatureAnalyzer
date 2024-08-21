@@ -9,7 +9,7 @@ var webAppToAcrRoleAssignmentName = guid(webApp.id, acrPullRoleDefinitionID, acr
 
 
 resource acr 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' existing = {
-  name: 'cr${suffix}'
+  name: 'azurecr${suffix}'
 }
 
 resource webApp 'Microsoft.Web/sites@2022-03-01' existing = {

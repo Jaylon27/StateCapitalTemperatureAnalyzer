@@ -5,7 +5,7 @@ param suffix string = uniqueString(resourceGroup().id)
 param location string = resourceGroup().location
 
 resource acr 'Microsoft.ContainerRegistry/registries@2021-09-01' existing = {
-  name: 'cr${suffix}'
+  name: 'azurecr${suffix}'
 }
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
