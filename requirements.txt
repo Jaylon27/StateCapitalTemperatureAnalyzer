@@ -1,0 +1,5 @@
+requests
+polars
+pytest
+dash
+plotly

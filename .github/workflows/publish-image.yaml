@@ -1,0 +1,21 @@
+name: Deploy Infastructure - Build and Push Docker Image to ACR
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - uses: actions/checkout@v2
+    - uses: azure/docker-login@v1
+      with:
+        login-server: crd4h36xqh4cp46.azurecr.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        docker build . -t crd4h36xqh4cp46.azurecr.io/weatherapp:${{ github.sha }}
+        docker push crd4h36xqh4cp46.azurecr.io/weatherapp:${{ github.sha }}
