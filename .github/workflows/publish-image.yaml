@@ -27,7 +27,6 @@ jobs:
         parameters: |
           location=eastus
         deploymentMode: Incremental
-        deploymentOutputs: outputJson
 
     - name: Parse Bicep Output
       run: |
