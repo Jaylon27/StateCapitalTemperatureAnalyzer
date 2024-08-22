@@ -23,18 +23,22 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}  
 
-    - name: Deploy App Service using Bicep
-      run: |
-        az deployment group create \
-          --resource-group WeatherProjectRG \
-          --template-file ./infastructure/webapp-deployment.bicep \
-          --parameters location=eastus \
-          --mode Incremental
+    - name: Deploy App Service Using Bicep
+      uses: azure/arm-deploy@v2
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        resourceGroupName: WeatherProjectRG
+        template: ./infastructure/web-deployment.bicep
+        parameters: |
+          location=eastus
+        deploymentMode: Incremental
 
     - name: Add Role Assignment using Bicep
-      run: |
-        az deployment group create \
-          --resource-group WeatherProjectRG \
-          --template-file ./infastructure/webapp-acr-roleassignment.bicep \
-          --parameters location=eastus \
-          --mode Incremental
+      uses: azure/arm-deploy@v2
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        resourceGroupName: WeatherProjectRG
+        template: ./infastructure/webapp-acr-role-assignment.bicep
+        parameters: |
+          location=eastus
+        deploymentMode: Incremental
