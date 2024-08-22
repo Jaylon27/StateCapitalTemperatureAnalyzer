@@ -19,7 +19,7 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
     - run: |
-        docker buildx build --platform linux/amd64,linux/arm64 . -t weatherprojectimages.azurecr.io/weatherapp:latest
+        docker build . -t weatherprojectimages.azurecr.io/weatherapp:latest
         docker push weatherprojectimages.azurecr.io/weatherapp:latest
 
     - name: Login to Docker Hub
