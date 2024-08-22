@@ -1,0 +1,53 @@
+name: Deploy ACR - Build and Push Docker Image to ACR
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  deploy_and_build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy ACR using Bicep
+      uses: azure/arm-deploy@v2
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        resourceGroupName: WeatherProjectRG
+        template: ./infrastructure/acr-deployment.bicep
+        parameters: |
+          location=eastus
+        deploymentMode: Incremental
+
+    - name: Parse Bicep Output
+      id: parse_output
+      run: |
+        # Get the ACR Login Server from the deployment output
+        acrLoginServer=$(az deployment group show --resource-group WeatherProjectRG --name acr-deployment --query properties.outputs.acrLoginServer.value -o tsv)
+        echo "ACR Login Server: $acrLoginServer"
+        # Save it as a GitHub Actions secret for the next steps
+        echo "ACR_LOGIN_SERVER=$acrLoginServer" >> $GITHUB_ENV
+
+    - name: Login to ACR
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.ACR_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - name: Build Docker Image 
+      run: |
+        docker build . -t ${{ env.ACR_LOGIN_SERVER }}/weatherapp:latest
+        
+    - name: Push Docker Image
+      run: |
+        docker push ${{ env.ACR_LOGIN_SERVER }}/weatherapp:latest
