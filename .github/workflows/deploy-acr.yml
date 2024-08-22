@@ -44,6 +44,4 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         resourceGroupName: WeatherProjectRG
         template: ./infastructure/webapp-acr-role-assignment.bicep
-        parameters: |
-          location=eastus
         deploymentMode: Incremental
