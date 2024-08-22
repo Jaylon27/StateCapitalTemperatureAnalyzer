@@ -1,5 +1,6 @@
 requests
 polars
+polars-lts-cpu
 pytest
 dash
 plotly
