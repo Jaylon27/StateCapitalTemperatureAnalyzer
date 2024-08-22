@@ -1,5 +1,4 @@
 name: Build and Push Docker Image to ACR and Docker Hub
-
 on:
   push:
     branches: [ "main" ]
@@ -11,19 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
     - name: Login to ACR
-      uses: azure/docker-login@v2
+    - uses: actions/checkout@v4
+    - uses: azure/docker-login@v2
       with:
-        login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+        login-server: weatherprojectimages.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
         
     - name: Build and Push Docker Image to ACR
-      run: |
+    - run: |
         docker build . -t weatherprojectimages.azurecr.io/weatherapp:latest
         docker push weatherprojectimages.azurecr.io/weatherapp:latest
-        
+
     - name: Login to Docker Hub
       run: |
         docker login -u jjones380 -p ${{ secrets.DOCKER_HUB_TOKEN }}
