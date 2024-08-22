@@ -1,4 +1,4 @@
-name: Build and Push Docker Image to ACR and Docker Hub
+name: Build and Push Docker Image to Docker Hub
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
 
       - name: Tag Docker Image for Docker Hub
         run: |
-          docker build -f ../Dockerfile -t jjones380/weatherprojectimages:latest .
+          docker build -f ./Dockerfile -t jjones380/weatherprojectimages:latest .
 
       - name: Push Docker Image to Docker Hub
         run: |
