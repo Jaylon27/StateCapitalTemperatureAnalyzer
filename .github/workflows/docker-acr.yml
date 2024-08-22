@@ -19,6 +19,6 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
     - run: |
-        cd dashboard_app
-        docker build . -t azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
+        
+        docker build -f dashboard_app/Dockerfile -t azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest dashboard_app
         docker push azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
