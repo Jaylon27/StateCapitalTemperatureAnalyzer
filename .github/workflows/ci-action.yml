@@ -23,7 +23,7 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         resourceGroupName: WeatherProjectRG
-        template: ./infrastructure/acr-deployment.bicep
+        template: ./infastructure/acr-deployment.bicep
         parameters: |
           location=eastus
         deploymentMode: Incremental
@@ -40,14 +40,14 @@ jobs:
     - name: Login to ACR
       uses: azure/docker-login@v1
       with:
-        login-server: ${{ env.ACR_LOGIN_SERVER }}
+        login-server: azurecrd4h36xqh4cp46.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
     - name: Build Docker Image 
       run: |
-        docker build . -t ${{ env.ACR_LOGIN_SERVER }}/weatherapp:latest
+        docker build . -t azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
         
     - name: Push Docker Image
       run: |
-        docker push ${{ env.ACR_LOGIN_SERVER }}/weatherapp:latest
+        docker push azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
