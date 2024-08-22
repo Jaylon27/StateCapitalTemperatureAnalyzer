@@ -11,8 +11,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Login to ACR
     - uses: azure/docker-login@v2
       with:
         login-server: weatherprojectimages.azurecr.io
