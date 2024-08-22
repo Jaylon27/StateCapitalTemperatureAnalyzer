@@ -29,19 +29,19 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
       acrUseManagedIdentityCreds: true
       appSettings: [
         {
-          name: 'UseOnlyInMemoryDatabase'
-          value: 'true'
+          name: 'PYTHON_VERSION'
+          value: '3.12' 
         }
         {
-          name: 'ASPNETCORE_ENVIRONMENT'
+          name: 'DASH_ENV'
           value: 'Docker'
         }
         {
-          name: 'ASPNETCORE_HTTP_PORTS'
-          value: '8000'
+          name: 'PORT'
+          value: '8050'
         }
       ]
-      linuxFxVersion: 'DOCKER|${acr.properties.loginServer}/eventdrivenbookstoreapi:latest'
+      linuxFxVersion: 'DOCKER|azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest'
     }
     serverFarmId: appServicePlan.id
   }
