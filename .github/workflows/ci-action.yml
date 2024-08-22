@@ -1,4 +1,5 @@
 name: Build and Push Docker Image to ACR and Docker Hub
+
 on:
   push:
     branches: [ "main" ]
@@ -16,8 +17,7 @@ jobs:
         login-server: weatherprojectimages.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
-        
-    - name: Build and Push Docker Image to ACR
+
     - run: |
         docker build . -t weatherprojectimages.azurecr.io/weatherapp:latest
         docker push weatherprojectimages.azurecr.io/weatherapp:latest
