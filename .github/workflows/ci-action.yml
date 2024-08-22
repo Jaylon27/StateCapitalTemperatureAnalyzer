@@ -10,8 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Login to ACR
     - uses: actions/checkout@v4
+    
+    - name: Login to ACR
     - uses: azure/docker-login@v2
       with:
         login-server: weatherprojectimages.azurecr.io
