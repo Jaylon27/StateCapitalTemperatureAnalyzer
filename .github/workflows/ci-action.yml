@@ -28,7 +28,7 @@ jobs:
         
     - name: Tag Docker Image for Docker Hub
       run: |
-        docker tag azurecrd4h36xqh4cp46.io/weatherapp:latest jjones380/weatherprojectimages:latest
+        docker tag azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest jjones380/weatherprojectimages:latest
     - name: Push Docker Image to Docker Hub
       run: |
         docker push jjones380/weatherprojectimages:latest
