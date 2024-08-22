@@ -9,6 +9,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: dashboard_app
+    
 
     steps:
     - uses: actions/checkout@v4
