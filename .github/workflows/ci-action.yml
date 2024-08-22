@@ -1,8 +1,7 @@
 name: Build and Push Docker Image to ACR and Docker Hub
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
 
