@@ -13,7 +13,7 @@ def main():
     start_time = time.time()
 
     try:
-        # Initialize an instance of PolarsQuery
+        # Initialize a instance of PolarsQuery
         query = PolarsQuery(
             letter = args.letter, 
             file="capitals.csv", 
