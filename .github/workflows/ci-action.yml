@@ -14,13 +14,13 @@ jobs:
     - uses: actions/checkout@v4
     - uses: azure/docker-login@v2
       with:
-        login-server: weatherprojectimages.azurecr.io
+        login-server: azurecrd4h36xqh4cp46.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
     - run: |
-        docker build . -t weatherprojectimages.azurecr.io/weatherapp:latest
-        docker push weatherprojectimages.azurecr.io/weatherapp:latest
+        docker build . -t azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
+        docker push azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
 
     - name: Login to Docker Hub
       run: |
@@ -28,7 +28,7 @@ jobs:
         
     - name: Tag Docker Image for Docker Hub
       run: |
-        docker tag weatherprojectimages.azurecr.io/weatherapp:latest jjones380/weatherprojectimages:latest
+        docker tag azurecrd4h36xqh4cp46.io/weatherapp:latest jjones380/weatherprojectimages:latest
     - name: Push Docker Image to Docker Hub
       run: |
         docker push jjones380/weatherprojectimages:latest
