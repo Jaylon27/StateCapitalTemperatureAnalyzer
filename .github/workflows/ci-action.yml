@@ -46,8 +46,8 @@ jobs:
 
     - name: Build Docker Image 
       run: |
-        docker build . -t azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
+        docker build . -t azurecrd4h36xqh4cp46.azurecr.io/weatherdata:latest
         
     - name: Push Docker Image
       run: |
-        docker push azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
+        docker push azurecrd4h36xqh4cp46.azurecr.io/weatherdata:latest
