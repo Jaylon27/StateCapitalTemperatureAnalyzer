@@ -1,4 +1,4 @@
-name: Push Docker Image to ACR
+name: Build and Push Docker Image to ACR and Docker Hub
 
 on:
   push:
@@ -12,85 +12,28 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: azure/docker-login@v2
+    - name: Login to ACR
+      uses: azure/docker-login@v2
       with:
-        login-server: weatherprojectimages.azurecr.io
+        login-server: ${{ env.ACR_LOGIN_SERVER }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
-
-    - run: |
+        
+    - name: Build and Push Docker Image to ACR
+      run: |
         docker build . -t weatherprojectimages.azurecr.io/weatherapp:latest
         docker push weatherprojectimages.azurecr.io/weatherapp:latest
-
-
-
-
-
-
-
-
-
-# name: Deploy ACR - Build and Push Docker Image to ACR and Docker Hub
-
-# on:
-#   push:
-#     branches: "main"
-
-# jobs:
-#   deploy_and_build:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#     - name: Checkout Code
-#       uses: actions/checkout@v2
-
-#     - name: Azure Login
-#       uses: azure/login@v1
-#       with:
-#         creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-#     - name: Deploy ACR using Bicep
-#       uses: azure/arm-deploy@v2
-#       with:
-#         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-#         resourceGroupName: WeatherProjectRG
-#         template: ./infastructure/acr-deployment.bicep
-#         parameters: |
-#           location=eastus
-#         deploymentMode: Incremental
-
-#     - name: Parse Bicep Output
-#       id: parse_output
-#       run: |
-#         # Get the ACR Login Server from the deployment output
-#         acrLoginServer=$(az deployment group show --resource-group WeatherProjectRG --name acr-deployment --query properties.outputs.acrLoginServer.value -o tsv)
-#         echo "ACR Login Server: $acrLoginServer"
-#         # Save it as a GitHub Actions secret for the next steps
-#         echo "ACR_LOGIN_SERVER=$acrLoginServer" >> $GITHUB_ENV
-
-#     - name: Login to ACR
-#       uses: azure/docker-login@v2
-#       with:
-#         login-server: ${{ env.ACR_LOGIN_SERVER }}
-#         username: ${{ secrets.REGISTRY_USERNAME }}
-#         password: ${{ secrets.REGISTRY_PASSWORD }}
         
-#     - name: Build and Push Docker Image to ACR
-#       run: |
-#         docker build . -t weatherprojectimages.azurecr.io/weatherapp:latest
-#         docker push weatherprojectimages.azurecr.io/weatherapp:latest
-
-#     - name: Login to Docker Hub
-#       run: |
-#         docker login -u jjones380 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-
-#     - name: Tag Docker Image for Docker Hub
-#       run: |
-#         docker tag weatherprojectimages.azurecr.io/weatherapp:latest jjones380/weatherprojectimages:latest
-
-#     - name: Push Docker Image to Docker Hub
-#       run: |
-#         docker push jjones380/weatherprojectimages:latest
+    - name: Login to Docker Hub
+      run: |
+        docker login -u jjones380 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        
+    - name: Tag Docker Image for Docker Hub
+      run: |
+        docker tag weatherprojectimages.azurecr.io/weatherapp:latest jjones380/weatherprojectimages:latest
+    - name: Push Docker Image to Docker Hub
+      run: |
+        docker push jjones380/weatherprojectimages:latest
         
 
 
