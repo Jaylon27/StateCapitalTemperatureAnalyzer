@@ -1,17 +1,17 @@
-name: Build and Push Docker Image to ACR
+name: Build and Push Docker Image to ACR and Docker Hub
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ "main" ]
 
 jobs:
 
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
-    - name: Login to ACR
     - uses: azure/docker-login@v2
       with:
         login-server: azurecrd4h36xqh4cp46.azurecr.io
@@ -21,6 +21,7 @@ jobs:
     - run: |
         docker build . -t azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
         docker push azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
+
         
 
 
