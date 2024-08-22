@@ -1,4 +1,4 @@
-name: Build and Push Docker Image to ACR and Docker Hub
+name: Build and Push Docker Image to ACR
 
 on:
   workflow_dispatch:
@@ -11,6 +11,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    
+    - name: Login to ACR
     - uses: azure/docker-login@v2
       with:
         login-server: azurecrd4h36xqh4cp46.azurecr.io
@@ -20,17 +22,6 @@ jobs:
     - run: |
         docker build . -t azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
         docker push azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest
-
-    - name: Login to Docker Hub
-      run: |
-        docker login -u jjones380 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-        
-    - name: Tag Docker Image for Docker Hub
-      run: |
-        docker tag azurecrd4h36xqh4cp46.azurecr.io/weatherapp:latest jjones380/weatherprojectimages:latest
-    - name: Push Docker Image to Docker Hub
-      run: |
-        docker push jjones380/weatherprojectimages:latest
         
 
 
