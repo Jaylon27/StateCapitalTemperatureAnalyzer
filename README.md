@@ -62,9 +62,9 @@ The command-line tool is designed to fetch and analyze weather data for U.S. cap
 
 **Running the Tool**:
    - Pull Command: docker pull jjones380/weatherprojectimages:latest
-   - Run Command: docker run -it --rm weather-app python3 main.py `<letter>`
+   - Run Command: docker run --rm jjones380/weatherprojectimages:latest python3 /app/main.py `<letter>`
 
-   **Example:** docker run -it --rm weather-app python3 main.py M
+   **Example:** docker run --rm jjones380/weatherprojectimages:latest python3 /app/main.py M
 
 ### Web Dashboard App
 
