@@ -1,4 +1,4 @@
-name: Deploy Infastructure
+name: Infastructure Deployment
 
 on:
  workflow_dispatch:
