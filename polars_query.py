@@ -46,7 +46,7 @@ class PolarsQuery:
         ])
 
         # Calculate the average temperature from the 'Temperature' column
-        average_temperature = temperature["Temperature"].mean()
+        average_temperature = round(temperature["Temperature"].mean())
 
         return temperature, average_temperature  # Return the updated DataFrame with the temperature data and the average temperature
 
