@@ -44,12 +44,9 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
         
-    - name: Build Docker Image 
+    - name: Build and Push Docker Image to ACR
       run: |
         docker build . -t weatherprojectimages.azurecr.io/weatherapp:latest
-    
-    - name: Push Docker Image to ACR
-      run: |
         docker push weatherprojectimages.azurecr.io/weatherapp:latest
 
     - name: Login to Docker Hub
