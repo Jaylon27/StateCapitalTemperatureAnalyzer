@@ -43,7 +43,24 @@ jobs:
         login-server: weatherprojectimages.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
+        
     - name: Build Docker Image 
-    - run: |
+      run: |
         docker build . -t weatherprojectimages.azurecr.io/weatherapp:latest
+    
+    - name: Push Docker Image to ACR
+      run: |
         docker push weatherprojectimages.azurecr.io/weatherapp:latest
+
+    - name: Login to Docker Hub
+      run: |
+        docker login -u jjones380 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Tag Docker Image for Docker Hub
+      run: |
+        docker tag weatherprojectimages.azurecr.io/weatherapp:latest jjones380/weatherprojectimages:latest
+
+    - name: Push Docker Image to Docker Hub
+      run: |
+        docker push jjones380/weatherprojectimages:latest
+
