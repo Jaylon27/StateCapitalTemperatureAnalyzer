@@ -1,0 +1,25 @@
+name: Build and Push Docker Image to ACR and Docker Hub
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+    - name: Login to Docker Hub
+      run: |
+        docker login -u jjones380 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        
+    - name: Tag Docker Image for Docker Hub
+      run: |
+      docker build --file ../../dashboard_app/Dockerfile -t weatherapp weatherprojectimages:latest
+    - name: Push Docker Image to Docker Hub
+      run: |
+        docker push jjones380/weatherprojectimages:latest
