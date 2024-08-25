@@ -17,7 +17,7 @@ jobs:
 
       - name: Tag Docker Image for Docker Hub
         run: |
-          docker build --no-cache -f ./Dockerfile -t jjones380/weatherprojectimages:latest .
+          docker build --no-cache -f ./command_line_tool/Dockerfile -t jjones380/weatherprojectimages:latest .
 
       - name: Push Docker Image to Docker Hub
         run: |
