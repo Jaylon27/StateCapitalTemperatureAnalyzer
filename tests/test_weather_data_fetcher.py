@@ -2,7 +2,7 @@ import pytest
 import requests
 import json
 from unittest.mock import patch
-from weather_data_fetcher import WeatherDataFetcher
+from command_line_tool.weather_data_fetcher import WeatherDataFetcher
 
 
 # Mock data for the weather API

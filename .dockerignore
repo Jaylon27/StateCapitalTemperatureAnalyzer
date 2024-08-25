@@ -3,3 +3,5 @@ __pycache__
 README.md
 Untitled-1.ipynb
 /tests/__pycache__
+.pytest_cache
+
