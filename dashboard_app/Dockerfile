@@ -5,7 +5,7 @@ WORKDIR /app
 COPY dashboard_app/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY dashboard_app/ ./
+COPY . .
 
 EXPOSE 8050
 
