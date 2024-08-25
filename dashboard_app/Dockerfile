@@ -2,10 +2,10 @@ FROM python:3
 
 WORKDIR /app
 
-COPY requirements.txt ./
+COPY dashboard_app/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY dashboard_app/ ./
 
 EXPOSE 8050
 
