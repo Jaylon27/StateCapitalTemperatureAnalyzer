@@ -91,7 +91,7 @@ def update_dashboard(selected_letter):
     # Summary Statistics
     summary = [
         html.P([html.Strong("Number of States: "), f"{len(filtered_df)}"]),
-        html.P([html.Strong("Average Temperature: "), f"{avg_temp:.2f} °F"]),
+        html.P([html.Strong("Average Temperature: "), f"{avg_temp} °F"]),
         html.P([html.Strong("Highest Temperature: "), f"{max_temp} °F ({capital_max_temp})"]),
         html.P([html.Strong("Lowest Temperature: "), f"{min_temp} °F ({capital_min_temp})"]) 
         ]
