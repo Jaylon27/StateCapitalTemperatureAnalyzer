@@ -100,5 +100,4 @@ def update_dashboard(selected_letter):
 
 # Run app
 if __name__ == '__main__':
-    # app.run_server(port=8050, host='0.0.0.0')
-    app.run_server(debug=True)
+    app.run_server(port=8050, host='0.0.0.0')
