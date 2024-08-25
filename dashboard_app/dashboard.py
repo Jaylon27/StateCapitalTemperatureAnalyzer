@@ -55,7 +55,6 @@ def update_dashboard(selected_letter):
 
     # Execute the query to get the filtered DataFrame and average temperature
     filtered_df, avg_temp = query.query()
-    avg_temp = round(avg_temp)
 
     
     # Check if no data is returned or the DataFrame is empty
