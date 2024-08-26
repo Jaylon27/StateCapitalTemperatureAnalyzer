@@ -28,11 +28,14 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest --maxfail=1 --disable-warnings -q
+        pytest --maxfail=1 --disable-warnings -q --junitxml=test-results/results.xml
+    
+    - name: List files in the test-results directory
+      run: ls -R test-results
 
     - name: Upload test results
-      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: test-results
-        path: test-results/
+        path: test-results/results.xml
+        if-no-files-found: warn
