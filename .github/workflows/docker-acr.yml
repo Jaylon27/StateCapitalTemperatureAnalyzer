@@ -1,8 +1,10 @@
 name: Build and Push Docker Image to ACR
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["Run Python Tests"]
+    types:
+      - completed
 
 jobs:
 
