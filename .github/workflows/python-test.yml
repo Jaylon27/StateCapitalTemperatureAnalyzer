@@ -17,6 +17,9 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.12'  
+    
+    - name: Create test-results directory
+      run: mkdir -p test-results
 
     - name: Install dependencies
       run: |
