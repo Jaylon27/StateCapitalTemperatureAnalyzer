@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch
 import polars as pl
-from command_line_tool.polars_query import PolarsQuery
+from polars_query import PolarsQuery
 
 # Sample data for testing
 sample_csv_data = [
