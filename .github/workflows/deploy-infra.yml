@@ -1,45 +1,83 @@
-name: Infastructure Deployment
+# name: Infastructure Deployment
+
+# on:
+#  workflow_dispatch:
+
+# jobs:
+#   deploy_and_build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout Code
+#       uses: actions/checkout@v2
+
+#     - name: Azure Login
+#       uses: azure/login@v1
+#       with:
+#         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+#     - name: Deploy ACR using Bicep
+#       uses: azure/arm-deploy@v2
+#       with:
+#         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+#         resourceGroupName: "temp-analyzer-RG"
+#         template: ./infastructure/acr-deployment.bicep
+#         parameters: |
+#           location=eastus
+#         deploymentMode: Incremental
+
+#     - name: Deploy App Service Using Bicep
+#       uses: azure/arm-deploy@v2
+#       with:
+#         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+#         resourceGroupName: WeatherProjectRG
+#         template: ./infastructure/webapp-deployment.bicep
+#         parameters: |
+#           location=eastus
+#         deploymentMode: Incremental
+
+#     - name: Add Role Assignment using Bicep
+#       uses: azure/arm-deploy@v2
+#       with:
+#         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+#         resourceGroupName: WeatherProjectRG
+#         template: ./infastructure/webapp-acr-role-assignment.bicep
+#         deploymentMode: Incremental
+
+
+name: Deploy Infrastructure
 
 on:
- workflow_dispatch:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  deploy_and_build:
+  terraform:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
-    - name: Azure Login
-      uses: azure/login@v1
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        terraform_version: 1.9.5 
 
-    - name: Deploy ACR using Bicep
-      uses: azure/arm-deploy@v2
-      with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        resourceGroupName: WeatherProjectRG
-        template: ./infastructure/acr-deployment.bicep
-        parameters: |
-          location=eastus
-        deploymentMode: Incremental
+    - name: Terraform Init
+      run: terraform init
 
-    - name: Deploy App Service Using Bicep
-      uses: azure/arm-deploy@v2
-      with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        resourceGroupName: WeatherProjectRG
-        template: ./infastructure/webapp-deployment.bicep
-        parameters: |
-          location=eastus
-        deploymentMode: Incremental
+    - name: Terraform Validate
+      run: terraform validate
 
-    - name: Add Role Assignment using Bicep
-      uses: azure/arm-deploy@v2
-      with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        resourceGroupName: WeatherProjectRG
-        template: ./infastructure/webapp-acr-role-assignment.bicep
-        deploymentMode: Incremental
+    - name: Terraform Plan
+      run: terraform plan
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
